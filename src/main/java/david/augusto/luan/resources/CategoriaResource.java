@@ -1,28 +1,25 @@
 package david.augusto.luan.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import david.augusto.luan.domain.Categoria;
+import david.augusto.luan.services.CategoriaService;
 
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
 
-	@RequestMapping(method = RequestMethod.GET)
-	public List<Categoria> list() {
+	@Autowired
+	private CategoriaService service;
 
-		Categoria c1 = new Categoria(1L, "Higiene");
-		Categoria c2 = new Categoria(2L, "Petiscos");
-
-		List<Categoria> categorias = new ArrayList<>();
-		categorias.add(c1);
-		categorias.add(c2);
-		
-		return categorias;
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Long id) {
+		Categoria categoria = service.buscar(id);
+		return ResponseEntity.ok().body(categoria);
 	}
 }
