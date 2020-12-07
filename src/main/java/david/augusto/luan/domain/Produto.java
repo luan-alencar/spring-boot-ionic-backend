@@ -2,13 +2,20 @@ package david.augusto.luan.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,24 +23,31 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Categoria implements Serializable {
+public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	
-	@ManyToMany(mappedBy = "categorias")
-	private List<Produto> produtos = new ArrayList<>();
+	private Double preco;
 
-	public Categoria(Long id, String nome) {
-		this.id = id;
-		this.nome = nome;
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+	private List<Categoria> categorias = new ArrayList<>();
+
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "id.produto")
+//	private Set<ItemPedido> itens = new HashSet<>();
+
+	public Produto() {
 	}
 
-	public Categoria() {
-		
+	public Produto(Long id, String nome, Double preco) {
+		this.id = id;
+		this.nome = nome;
+		this.preco = preco;
 	}
 
 	@Override
@@ -52,7 +66,7 @@ public class Categoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Produto other = (Produto) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -60,5 +74,4 @@ public class Categoria implements Serializable {
 			return false;
 		return true;
 	}
-
 }

@@ -1,20 +1,21 @@
 package david.augusto.luan;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import david.augusto.luan.domain.Categoria;
 import david.augusto.luan.repositories.CategoriaRepository;
+import david.augusto.luan.repositories.ProdutoRepository;
 
 @SpringBootApplication
 public class JpaApplication implements CommandLineRunner {
 
 	@Autowired
-	private CategoriaRepository repository;
+	private CategoriaRepository categoriaRepository;
+
+	@Autowired
+	private ProdutoRepository produtoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaApplication.class, args);
@@ -22,10 +23,7 @@ public class JpaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Categoria cat1 = new Categoria(null, "Informática");
-		Categoria cat2 = new Categoria(null, "Escritório");
-		// salvando as categorias no db
-		repository.saveAll(Arrays.asList(cat1, cat2));
+		
 	}
 
 }
