@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import david.augusto.luan.domain.Categoria;
 import david.augusto.luan.domain.Cidade;
+import david.augusto.luan.domain.Cliente;
+import david.augusto.luan.domain.Endereco;
 import david.augusto.luan.domain.Estado;
 import david.augusto.luan.domain.Produto;
+import david.augusto.luan.domain.enums.TipoCliente;
 import david.augusto.luan.repositories.CategoriaRepository;
 import david.augusto.luan.repositories.CidadeRepository;
+import david.augusto.luan.repositories.ClienteRepository;
+import david.augusto.luan.repositories.EnderecoRepository;
 import david.augusto.luan.repositories.EstadoRepository;
 import david.augusto.luan.repositories.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class JpaApplication implements CommandLineRunner {
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
+
+	@Autowired
+	private ClienteRepository clienteRepository;
+
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaApplication.class, args);
@@ -73,5 +84,17 @@ public class JpaApplication implements CommandLineRunner {
 
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
+
+		// Instanciando objetos
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "4321234234", TipoCliente.PESSOAFISICA);
+		cli1.getTelefone().addAll(Arrays.asList("1241-2344", "1231-1234"));
+
+		Endereco e1 = new Endereco(null, "Rua Floriano Peixoto", "300", "Apto. 203", "Centro", "24-234-234", cli1,
+				cid1);
+		cli1.getEnderecos().addAll(Arrays.asList(e1));
+
+		// Salvando os objetos no DB
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1));
 	}
 }
