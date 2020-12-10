@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import david.augusto.luan.domain.Categoria;
+import david.augusto.luan.domain.Cidade;
+import david.augusto.luan.domain.Estado;
 import david.augusto.luan.domain.Produto;
 import david.augusto.luan.repositories.CategoriaRepository;
+import david.augusto.luan.repositories.CidadeRepository;
+import david.augusto.luan.repositories.EstadoRepository;
 import david.augusto.luan.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -20,6 +24,12 @@ public class JpaApplication implements CommandLineRunner {
 
 	@Autowired
 	private ProdutoRepository produtoRepository;
+
+	@Autowired
+	private EstadoRepository estadoRepository;
+
+	@Autowired
+	private CidadeRepository cidadeRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaApplication.class, args);
@@ -47,8 +57,21 @@ public class JpaApplication implements CommandLineRunner {
 		p2.getCategorias().addAll(Arrays.asList(c1, c2));
 		p3.getCategorias().addAll(Arrays.asList(c1));
 
+		Estado est1 = new Estado(null, "Paraíba");
+		Estado est2 = new Estado(null, "Pernambuco");
+		Cidade cid1 = new Cidade(null, "Campina Grande", est1);
+		Cidade cid2 = new Cidade(null, "Joao Pessoa", est1);
+		Cidade cid3 = new Cidade(null, "Recife", est2);
+
+		// adicionando as cidades aos seus respectivos estados
+		est1.getCidades().addAll(Arrays.asList(cid1, cid2));
+		est2.getCidades().addAll(Arrays.asList(cid3));
+
 		// salvando na camada de acesso a dados
 		categoriaRepository.saveAll(Arrays.asList(c1, c2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+
+		estadoRepository.saveAll(Arrays.asList(est1, est2));
+		cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
 	}
 }
