@@ -1,6 +1,7 @@
 package david.augusto.luan.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,27 +17,30 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
-public class Endereco implements Serializable {
+public class Pedido implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String logradouro;
-	private String numero;
-	private String complemento;
-	private String bairro;
-	private String cep;
+
+	private Date data;
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
 	@ManyToOne
-	@JoinColumn(name = "cidade_id")
-	private Cidade cidade;
+	@JoinColumn(name = "endereco_id")
+	private Endereco enderecoEntrega;
+
+	public Pedido(Long id, Date data, Cliente cliente, Endereco enderecoEntrega) {
+		this.id = id;
+		this.data = new Date();
+		this.cliente = cliente;
+		this.enderecoEntrega = enderecoEntrega;
+	}
 
 	@Override
 	public int hashCode() {
@@ -55,7 +58,7 @@ public class Endereco implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Endereco other = (Endereco) obj;
+		Pedido other = (Pedido) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
