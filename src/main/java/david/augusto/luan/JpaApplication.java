@@ -1,6 +1,7 @@
 package david.augusto.luan;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +13,7 @@ import david.augusto.luan.domain.Cidade;
 import david.augusto.luan.domain.Cliente;
 import david.augusto.luan.domain.Endereco;
 import david.augusto.luan.domain.Estado;
+import david.augusto.luan.domain.Pedido;
 import david.augusto.luan.domain.Produto;
 import david.augusto.luan.domain.enums.TipoCliente;
 import david.augusto.luan.repositories.CategoriaRepository;
@@ -96,5 +98,8 @@ public class JpaApplication implements CommandLineRunner {
 		// Salvando os objetos no DB
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1));
+
+		Pedido ped1 = new Pedido(null, new Date(), cli1, e1);
+
 	}
 }
