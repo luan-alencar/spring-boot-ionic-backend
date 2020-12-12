@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import david.augusto.luan.domain.enums.TipoCliente;
 import lombok.Getter;
@@ -47,6 +48,7 @@ public class Cliente implements Serializable {
 	@JoinTable(name = "PEDIDOS", joinColumns = @JoinColumn(name = "pedido_id"), inverseJoinColumns = @JoinColumn(name = "cliente_id"))
 	private List<Pedido> pedidos = new ArrayList<Pedido>();
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
 

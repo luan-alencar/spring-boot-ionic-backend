@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,7 @@ public class Cidade implements Serializable {
 	private Long id;
 	private String nome;
 
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "estado_id") // definindo o nome da chave estrangeira no DB
 	private Estado estado;
