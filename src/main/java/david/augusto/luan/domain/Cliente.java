@@ -12,13 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import david.augusto.luan.domain.enums.TipoCliente;
@@ -42,10 +37,7 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpf;
 	private Long tipo;
 
-	@JsonBackReference
-	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "PEDIDOS", joinColumns = @JoinColumn(name = "pedido_id"), inverseJoinColumns = @JoinColumn(name = "cliente_id"))
+	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<Pedido>();
 
 	@JsonManagedReference

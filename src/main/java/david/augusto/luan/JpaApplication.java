@@ -1,7 +1,7 @@
 package david.augusto.luan;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,14 +13,20 @@ import david.augusto.luan.domain.Cidade;
 import david.augusto.luan.domain.Cliente;
 import david.augusto.luan.domain.Endereco;
 import david.augusto.luan.domain.Estado;
+import david.augusto.luan.domain.Pagamento;
+import david.augusto.luan.domain.PagamentoBoleto;
+import david.augusto.luan.domain.PagamentoComCartao;
 import david.augusto.luan.domain.Pedido;
 import david.augusto.luan.domain.Produto;
+import david.augusto.luan.domain.enums.EstadoPagamento;
 import david.augusto.luan.domain.enums.TipoCliente;
 import david.augusto.luan.repositories.CategoriaRepository;
 import david.augusto.luan.repositories.CidadeRepository;
 import david.augusto.luan.repositories.ClienteRepository;
 import david.augusto.luan.repositories.EnderecoRepository;
 import david.augusto.luan.repositories.EstadoRepository;
+import david.augusto.luan.repositories.PagamentoRepository;
+import david.augusto.luan.repositories.PedidoRepository;
 import david.augusto.luan.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -43,6 +49,12 @@ public class JpaApplication implements CommandLineRunner {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+
+	@Autowired
+	private PedidoRepository pedidoRepository;
+
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaApplication.class, args);
@@ -93,13 +105,29 @@ public class JpaApplication implements CommandLineRunner {
 
 		Endereco e1 = new Endereco(null, "Rua Floriano Peixoto", "300", "Apto. 203", "Centro", "24-234-234", cli1,
 				cid1);
-		cli1.getEnderecos().addAll(Arrays.asList(e1));
+
+		Endereco e2 = new Endereco(null, "Rua José do Precipício", "400", "Casa", "Ramadinha", "21-456-098", cli1,
+				cid2);
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 
 		// Salvando os objetos no DB
 		clienteRepository.saveAll(Arrays.asList(cli1));
-		enderecoRepository.saveAll(Arrays.asList(e1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
-		Pedido ped1 = new Pedido(null, new Date(), cli1, e1);
+		SimpleDateFormat smf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Pedido ped1 = new Pedido(null, smf.parse("30/09/2020 05:30"), cli1, e1);
+		Pedido ped2 = new Pedido(null, smf.parse("10/10/2020 16:20"), cli1, e2);
 
+		Pagamento pag1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pag1);
+
+		Pagamento pag2 = new PagamentoBoleto(null, EstadoPagamento.PENDENTE, ped2, smf.parse("30/12/2020 00:00"), null);
+		ped2.setPagamento(pag2);
+
+		// associando os pedidos ao cliente
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
 	}
 }
