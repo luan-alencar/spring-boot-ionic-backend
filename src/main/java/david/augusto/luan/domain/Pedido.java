@@ -1,7 +1,10 @@
 package david.augusto.luan.domain;
 
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Getter;
@@ -40,11 +44,16 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "endereco_de_entrega_id")
 	private Endereco enderecoEntrega;
 
+	// Set ajuda para garantir que não haverá produto repetido
+	@OneToMany(mappedBy = "id.pedido")
+	private Set<ItemPedido> itens;
+
 	public Pedido(Long id, Date data, Cliente cliente, Endereco enderecoEntrega) {
 		this.id = id;
 		this.data = data;
 		this.cliente = cliente;
 		this.enderecoEntrega = enderecoEntrega;
+		this.itens = new HashSet<ItemPedido>();
 	}
 
 	@Override

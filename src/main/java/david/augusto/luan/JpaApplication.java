@@ -13,6 +13,7 @@ import david.augusto.luan.domain.Cidade;
 import david.augusto.luan.domain.Cliente;
 import david.augusto.luan.domain.Endereco;
 import david.augusto.luan.domain.Estado;
+import david.augusto.luan.domain.ItemPedido;
 import david.augusto.luan.domain.Pagamento;
 import david.augusto.luan.domain.PagamentoBoleto;
 import david.augusto.luan.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import david.augusto.luan.repositories.CidadeRepository;
 import david.augusto.luan.repositories.ClienteRepository;
 import david.augusto.luan.repositories.EnderecoRepository;
 import david.augusto.luan.repositories.EstadoRepository;
+import david.augusto.luan.repositories.ItemPedidoRepository;
 import david.augusto.luan.repositories.PagamentoRepository;
 import david.augusto.luan.repositories.PedidoRepository;
 import david.augusto.luan.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class JpaApplication implements CommandLineRunner {
 
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaApplication.class, args);
@@ -129,5 +134,19 @@ public class JpaApplication implements CommandLineRunner {
 
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
+
+		// ItemPedido
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.0, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 0.0, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 }
