@@ -24,7 +24,7 @@ public class ItemPedido implements Serializable {
 	 */
 
 	// id com atributo composto
-	@JsonIgnore
+	@JsonIgnore // isso não vai ser sereliarizado
 	@EmbeddedId
 	private ItemPedidoPK id = new ItemPedidoPK();
 
@@ -33,6 +33,7 @@ public class ItemPedido implements Serializable {
 	private Double preco;
 
 	public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
+		super();
 		id.setPedido(pedido);
 		id.setProduto(produto);
 		this.desconto = desconto;

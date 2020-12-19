@@ -1,6 +1,5 @@
 package david.augusto.luan.domain;
 
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,11 +33,13 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Date data;
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	private Date instante;
 
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private Pagamento pagamento;
 
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
@@ -48,9 +52,9 @@ public class Pedido implements Serializable {
 	@OneToMany(mappedBy = "id.pedido")
 	private Set<ItemPedido> itens;
 
-	public Pedido(Long id, Date data, Cliente cliente, Endereco enderecoEntrega) {
+	public Pedido(Long id, Date instante, Cliente cliente, Endereco enderecoEntrega) {
 		this.id = id;
-		this.data = data;
+		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoEntrega = enderecoEntrega;
 		this.itens = new HashSet<ItemPedido>();
