@@ -11,10 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 public class Categoria implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,17 +25,15 @@ public class Categoria implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
-	
+
 	@ManyToMany(mappedBy = "categorias")
-	private List<Produto> produtos = new ArrayList<>();
+	private List<Produto> produtos;
 
 	public Categoria(Long id, String nome) {
+		super();
 		this.id = id;
 		this.nome = nome;
-	}
-
-	public Categoria() {
-		
+		this.produtos = new ArrayList<>();
 	}
 
 	@Override
@@ -60,5 +60,4 @@ public class Categoria implements Serializable {
 			return false;
 		return true;
 	}
-
 }

@@ -1,5 +1,6 @@
 package david.augusto.luan.domain;
 
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -16,11 +17,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
+@Setter
 public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
 

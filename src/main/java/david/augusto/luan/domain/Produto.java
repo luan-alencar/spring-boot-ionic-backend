@@ -45,15 +45,17 @@ public class Produto implements Serializable {
 	}
 
 	public Produto(Long id, String nome, Double preco) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
 	}
 
+	@JsonIgnore
 	public List<Pedido> getPedidos() {
 		List<Pedido> lista = new ArrayList<>();
-		for (ItemPedido i : itens) {
-			lista.add(i.getPedido());
+		for (ItemPedido x : itens) {
+			lista.add(x.getPedido());
 		}
 		return lista;
 	}
@@ -82,4 +84,5 @@ public class Produto implements Serializable {
 			return false;
 		return true;
 	}
+
 }
