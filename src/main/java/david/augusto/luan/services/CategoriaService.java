@@ -3,6 +3,7 @@ package david.augusto.luan.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import david.augusto.luan.domain.Categoria;
@@ -29,5 +30,14 @@ public class CategoriaService {
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repository.save(obj);
+	}
+
+	public void delete(Long id) {
+		find(id);
+		try {
+			repository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Não é possível excluir uma categoria que possua produtos!");
+		}
 	}
 }
