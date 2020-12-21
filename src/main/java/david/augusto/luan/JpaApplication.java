@@ -71,6 +71,11 @@ public class JpaApplication implements CommandLineRunner {
 		// categorias
 		Categoria c1 = new Categoria(null, "Informática");
 		Categoria c2 = new Categoria(null, "Escritório");
+		Categoria c3 = new Categoria(null, "Eletrônico");
+		Categoria c4 = new Categoria(null, "Jardinagem");
+		Categoria c5 = new Categoria(null, "Decoração");
+		Categoria c6 = new Categoria(null, "Cama, mesa e banho");
+		Categoria c7 = new Categoria(null, "Sereais");
 
 		// produtos
 		Produto p1 = new Produto(null, "Computador", 2000.00);
@@ -98,7 +103,7 @@ public class JpaApplication implements CommandLineRunner {
 		est2.getCidades().addAll(Arrays.asList(cid3));
 
 		// salvando na camada de acesso a dados
-		categoriaRepository.saveAll(Arrays.asList(c1, c2));
+		categoriaRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5, c6, c7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
