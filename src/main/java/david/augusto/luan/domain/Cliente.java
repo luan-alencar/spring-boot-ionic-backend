@@ -32,7 +32,6 @@ public class Cliente implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	private String nome;
 	private String email;
 	private String cpfOuCnpf;
@@ -55,7 +54,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpf = cpfOuCnpf;
-		this.tipo = tipo.getId();
+		this.tipo = (tipo == null) ? null : tipo.getId();
 	}
 
 	public TipoCliente getTipo() {
