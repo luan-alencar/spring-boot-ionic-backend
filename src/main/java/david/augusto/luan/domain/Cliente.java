@@ -35,7 +35,7 @@ public class Cliente implements Serializable {
 	private Long id;
 	private String nome;
 	private String email;
-	private String cpfOuCnpf;
+	private String cpfOuCnpj;
 	private Long tipo;
 
 	@JsonIgnore
@@ -53,7 +53,7 @@ public class Cliente implements Serializable {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
-		this.cpfOuCnpf = cpfOuCnpf;
+		this.cpfOuCnpj = cpfOuCnpf;
 		this.tipo = (tipo == null) ? null : tipo.getId();
 	}
 
