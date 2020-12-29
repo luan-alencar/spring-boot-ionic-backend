@@ -39,7 +39,6 @@ public class ClienteNewDTO implements Serializable {
 
 	private String complemento;
 
-	@NotEmpty(message = "Preechimento obrigatório!")
 	private String bairro;
 
 	@NotEmpty(message = "Preechimento obrigatório!")
