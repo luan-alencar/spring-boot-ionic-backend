@@ -58,6 +58,11 @@ public class Pedido implements Serializable {
 		this.itens = new HashSet<ItemPedido>();
 	}
 
+	public double getValorTotal() {
+		double soma = itens.stream().mapToDouble(i -> i.getSubTotal()).sum();
+		return soma;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
