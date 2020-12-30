@@ -23,12 +23,15 @@ public class PedidoService {
 
 	@Autowired
 	private BoletoService boletoService;
-	
+
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
-	
+
 	@Autowired
 	private ProdutoService produtoService;
+
+	@Autowired
+	ItemPedidoRepository itemRepository;
 
 	public Pedido find(Long id) {
 		Optional<Pedido> pedido = pedidoRepository.findById(id);
@@ -36,9 +39,6 @@ public class PedidoService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 	}
 
-	@Autowired
-	ItemPedidoRepository itemRepository;
-	
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
@@ -58,5 +58,4 @@ public class PedidoService {
 		itemRepository.saveAll(obj.getItens());
 		return obj;
 	}
-
 }
