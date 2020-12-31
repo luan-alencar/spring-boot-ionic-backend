@@ -15,6 +15,6 @@ import david.augusto.luan.domain.Produto;
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
 	@Transactional(readOnly=true)
-	Page<Produto> findDistinctByNomeContainingAndCategoriasIn(String nome, List<Categoria> categorias,
+	Page<Produto> findDistinctByNomeContainingAndCategoriasIn(String nome, List<Categoria> categories,
 			Pageable pageRequest);
 }

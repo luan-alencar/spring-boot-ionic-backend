@@ -39,7 +39,7 @@ public class ItemPedido implements Serializable {
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
-	
+
 	public double getSubTotal() {
 		return (preco - desconto) * quantidade;
 	}
@@ -54,11 +54,11 @@ public class ItemPedido implements Serializable {
 	public Produto getProduto() {
 		return id.getProduto();
 	}
-	 
+
 	public void setPedido(Pedido p) {
 		id.setPedido(p);
 	}
-	
+
 	public void setProduto(Produto p) {
 		id.setProduto(p);
 	}
@@ -86,5 +86,19 @@ public class ItemPedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		build.append(getProduto().getNome());
+		build.append(", Qte: ");
+		build.append(getQuantidade());
+		build.append(", Preço unitário: ");
+		build.append(getPreco());
+		build.append(", Subtotal: ");
+		build.append(getSubTotal());
+		build.append("\n");
+		return build.toString();
 	}
 }

@@ -22,8 +22,8 @@ public class CategoriaService {
 	private CategoriaRepository repository;
 
 	public Categoria find(Long id) {
-		Optional<Categoria> categoria = repository.findById(id);
-		return categoria.orElseThrow(() -> new ObjectNotFoundException(
+		Optional<Categoria> category = repository.findById(id);
+		return category.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 

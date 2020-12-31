@@ -30,7 +30,6 @@ public class Categoria implements Serializable {
 	private List<Produto> produtos;
 
 	public Categoria(Long id, String nome) {
-		super();
 		this.id = id;
 		this.nome = nome;
 		this.produtos = new ArrayList<>();

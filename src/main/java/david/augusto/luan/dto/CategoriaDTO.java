@@ -28,8 +28,8 @@ public class CategoriaDTO implements Serializable {
 	@Length(min = 5, max = 80, message = "O tamanho deve conter entre 5 a 80 caracteres!")
 	private String nome;
 
-	public CategoriaDTO(Categoria categoria) {
-		id = categoria.getId();
-		nome = categoria.getNome();
+	public CategoriaDTO(Categoria category) {
+		id = category.getId();
+		nome = category.getNome();
 	}
 }

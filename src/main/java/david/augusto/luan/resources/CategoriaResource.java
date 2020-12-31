@@ -31,8 +31,8 @@ public class CategoriaResource {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Categoria> find(@PathVariable Long id) throws ObjectNotFoundException {
-		Categoria categoria = service.find(id);
-		return ResponseEntity.ok().body(categoria);
+		Categoria category = service.find(id);
+		return ResponseEntity.ok().body(category);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
