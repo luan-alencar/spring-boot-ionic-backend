@@ -102,4 +102,9 @@ public class ClienteService {
 		}
 		return cli;
 	}
+
+	public Cliente findOne(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

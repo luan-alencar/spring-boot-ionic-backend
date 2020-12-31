@@ -1,6 +1,8 @@
 package david.augusto.luan.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -90,14 +92,16 @@ public class ItemPedido implements Serializable {
 
 	@Override
 	public String toString() {
+		// StringBuilder é mais perfomático
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 		StringBuilder build = new StringBuilder();
 		build.append(getProduto().getNome());
 		build.append(", Qte: ");
 		build.append(getQuantidade());
 		build.append(", Preço unitário: ");
-		build.append(getPreco());
+		build.append(nf.format(getPreco()));
 		build.append(", Subtotal: ");
-		build.append(getSubTotal());
+		build.append(nf.format(getSubTotal()));
 		build.append("\n");
 		return build.toString();
 	}
