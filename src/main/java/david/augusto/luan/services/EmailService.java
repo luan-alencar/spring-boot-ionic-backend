@@ -6,7 +6,7 @@ import david.augusto.luan.domain.Pedido;
 
 public interface EmailService {
 
-	void sendOrderConfirmationEmail(Pedido p);
+	void sendOrderConfirmationEmail(Pedido obj);
 	
 	void sendEmail(SimpleMailMessage msg);
 }
