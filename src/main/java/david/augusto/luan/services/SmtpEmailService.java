@@ -9,6 +9,8 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import david.augusto.luan.domain.Pedido;
+
 public class SmtpEmailService extends AbstractEmailService{
 
 	private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class);
@@ -33,6 +35,12 @@ public class SmtpEmailService extends AbstractEmailService{
 		LOG.info("Simulando envio de email HTML");
 		javaMailSender.send(msg);
 		LOG.info("Email enviado!");
+	}
+
+
+	@Override
+	public void sendOrderConfirmationHtmlEmail(Pedido obj) {
+		
 	}
 	
 	
