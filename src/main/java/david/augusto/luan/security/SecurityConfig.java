@@ -1,4 +1,4 @@
-package david.augusto.luan.config;
+package david.augusto.luan.security;
 
 import java.util.Arrays;
 
@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	public static final String[] PUBLIC_MATCHERS = { "/h2-console/**" };
 
-	public static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**" };
+	public static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**" , "/clientes/**"};
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {

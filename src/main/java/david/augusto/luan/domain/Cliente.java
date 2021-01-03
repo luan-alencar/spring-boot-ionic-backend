@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,15 +20,14 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import david.augusto.luan.domain.enums.Perfil;
 import david.augusto.luan.domain.enums.TipoCliente;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -43,16 +44,20 @@ public class Cliente implements Serializable {
 	@JsonIgnore
 	private String senha;
 
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
+	private Set<Long> perfis = new HashSet<Long>();
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
-	private List<Pedido> pedidos = new ArrayList<Pedido>();
+	private List<Pedido> pedidos;
 
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // se eu apagar um Cliente todos seus Endereços tb serão
-	private List<Endereco> enderecos = new ArrayList<Endereco>();
+	private List<Endereco> enderecos;
 
 	@ElementCollection
 	@CollectionTable(name = "TELEFONES")
-	private Set<String> telefone = new HashSet<String>();
+	private Set<String> telefones;
 
 	public Cliente(Long id, String nome, String email, String cpfOuCnpf, TipoCliente tipo, String senha) {
 		this.id = id;
@@ -61,6 +66,14 @@ public class Cliente implements Serializable {
 		this.cpfOuCnpj = cpfOuCnpf;
 		this.tipo = (tipo == null) ? null : tipo.getId();
 		this.senha = senha;
+		this.pedidos = new ArrayList<Pedido>();
+		this.enderecos = new ArrayList<Endereco>();
+		this.telefones = new HashSet<String>();
+		addPerfil(Perfil.CLIENTE);
+	}
+
+	public Cliente() {
+		addPerfil(Perfil.CLIENTE);
 	}
 
 	public TipoCliente getTipo() {
@@ -69,6 +82,15 @@ public class Cliente implements Serializable {
 
 	public void setTipo(TipoCliente tipo) {
 		this.tipo = tipo.getId();
+	}
+
+	// retorna os perfis do Cliente
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(n -> Perfil.toEnum(id)).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getId());
 	}
 
 	@Override
@@ -95,5 +117,4 @@ public class Cliente implements Serializable {
 			return false;
 		return true;
 	}
-
 }
