@@ -40,6 +40,8 @@ public class Cliente implements Serializable {
 	private String email;
 	private String cpfOuCnpj;
 	private Long tipo;
+	@JsonIgnore
+	private String senha;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
@@ -52,12 +54,13 @@ public class Cliente implements Serializable {
 	@CollectionTable(name = "TELEFONES")
 	private Set<String> telefone = new HashSet<String>();
 
-	public Cliente(Long id, String nome, String email, String cpfOuCnpf, TipoCliente tipo) {
+	public Cliente(Long id, String nome, String email, String cpfOuCnpf, TipoCliente tipo, String senha) {
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpf;
 		this.tipo = (tipo == null) ? null : tipo.getId();
+		this.senha = senha;
 	}
 
 	public TipoCliente getTipo() {
