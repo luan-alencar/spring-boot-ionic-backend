@@ -28,7 +28,7 @@ import david.augusto.luan.services.exceptions.ObjectNotFoundException;
 public class ClienteService {
 
 	@Autowired
-	private ClienteRepository repository;
+	private ClienteRepository clienteRepository;
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
@@ -42,7 +42,7 @@ public class ClienteService {
 		if(user == null || !user.hasRole(Perfil.ADMIN)) {
 			throw new AuthorizationException("Acesso negado!");
 		}
-		Optional<Cliente> cliente = repository.findById(id);
+		Optional<Cliente> cliente = clienteRepository.findById(id);
 		return cliente.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
@@ -50,7 +50,7 @@ public class ClienteService {
 	@Transactional // garante que tanto o cliente quanto os endereços estejam na mesma transação
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
-		obj = repository.save(obj);
+		obj = clienteRepository.save(obj);
 		enderecoRepository.saveAll(obj.getEnderecos());
 		return obj;
 	}
@@ -59,7 +59,7 @@ public class ClienteService {
 		Cliente newObj = find(obj.getId());
 		updateData(newObj, obj);
 		// apos atualizar salva o novo obj
-		return repository.save(newObj);
+		return clienteRepository.save(newObj);
 	}
 
 	// vai no db e seta o nome e email ao novo obj
@@ -71,14 +71,14 @@ public class ClienteService {
 	public void delete(Long id) {
 		find(id);
 		try {
-			repository.deleteById(id);
+			clienteRepository.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityViolationException("Não é possível excluir uma categoria que possua produtos!");
 		}
 	}
 
 	public List<Cliente> findAll() {
-		return repository.findAll();
+		return clienteRepository.findAll();
 	}
 
 	/*
@@ -87,7 +87,7 @@ public class ClienteService {
 	 */
 	public Page<Cliente> findPage(Integer page, Integer linesPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPage, Direction.valueOf(direction), orderBy);
-		return repository.findAll(pageRequest);
+		return clienteRepository.findAll(pageRequest);
 	}
 
 	public Cliente fromDTO(ClienteNewDTO objDto) {
@@ -113,10 +113,5 @@ public class ClienteService {
 			cli.getTelefones().add(objDto.getTelefone3());
 		}
 		return cli;
-	}
-
-	public Cliente findOne(Long id) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

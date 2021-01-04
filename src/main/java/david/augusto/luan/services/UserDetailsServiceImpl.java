@@ -11,14 +11,14 @@ import david.augusto.luan.repositories.ClienteRepository;
 import david.augusto.luan.security.UserSS;
 
 @Service
-public class UserDatailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private ClienteRepository clienteRepository;
-
+	private ClienteRepository repo;
+	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Cliente cli = clienteRepository.findByEmail(email);
+		Cliente cli = repo.findByEmail(email);
 		if (cli == null) {
 			throw new UsernameNotFoundException(email);
 		}

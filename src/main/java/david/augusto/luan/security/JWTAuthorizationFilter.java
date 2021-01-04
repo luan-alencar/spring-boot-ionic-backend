@@ -31,24 +31,21 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		// procedimento para liberar a autorização do usuario que ta tentando usar o
-		// endpoint
 		String header = request.getHeader("Authorization");
 		if (header != null && header.startsWith("Bearer ")) {
-			UsernamePasswordAuthenticationToken auth = getAuthentication(request, header.substring(7));
+			UsernamePasswordAuthenticationToken auth = getAuthentication(header.substring(7));
 			if (auth != null) {
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 		}
-		// vai continuar fazendo a requisição normalmente depoisde fazer os testes
 		chain.doFilter(request, response);
 	}
 
-	public UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, String token) {
+	private UsernamePasswordAuthenticationToken getAuthentication(String token) {
 		if (jwtUtil.tokenValido(token)) {
 			String username = jwtUtil.getUsername(token);
 			UserDetails user = userDetailsService.loadUserByUsername(username);
-			return new UsernamePasswordAuthenticationToken(user, null,user.getAuthorities());
+			return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 		}
 		return null;
 	}
