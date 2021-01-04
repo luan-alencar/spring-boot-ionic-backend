@@ -15,10 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import david.augusto.luan.domain.Cidade;
 import david.augusto.luan.domain.Cliente;
 import david.augusto.luan.domain.Endereco;
+import david.augusto.luan.domain.enums.Perfil;
 import david.augusto.luan.domain.enums.TipoCliente;
 import david.augusto.luan.dto.ClienteNewDTO;
 import david.augusto.luan.repositories.ClienteRepository;
 import david.augusto.luan.repositories.EnderecoRepository;
+import david.augusto.luan.security.UserSS;
+import david.augusto.luan.services.exceptions.AuthorizationException;
 import david.augusto.luan.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -34,6 +37,11 @@ public class ClienteService {
 	private BCryptPasswordEncoder bcP;
 
 	public Cliente find(Long id) {
+		
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN)) {
+			throw new AuthorizationException("Acesso negado!");
+		}
 		Optional<Cliente> cliente = repository.findById(id);
 		return cliente.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
