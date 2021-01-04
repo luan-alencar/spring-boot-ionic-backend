@@ -20,6 +20,7 @@ public enum Perfil {
 		if (id == null) {
 			return null;
 		}
+
 		for (Perfil e : Perfil.values()) {
 			if (id.equals(e.getId())) {
 				return e;
