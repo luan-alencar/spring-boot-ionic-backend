@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,29 +30,21 @@ import david.augusto.luan.repositories.ItemPedidoRepository;
 import david.augusto.luan.repositories.PagamentoRepository;
 import david.augusto.luan.repositories.PedidoRepository;
 import david.augusto.luan.repositories.ProdutoRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class DBService {
 
-	@Autowired
 	private BCryptPasswordEncoder pe;
-	@Autowired
 	private CategoriaRepository categoriaRepository;
-	@Autowired
 	private ProdutoRepository produtoRepository;
-	@Autowired
 	private EstadoRepository estadoRepository;
-	@Autowired
 	private CidadeRepository cidadeRepository;
-	@Autowired
 	private ClienteRepository clienteRepository;
-	@Autowired
 	private EnderecoRepository enderecoRepository;
-	@Autowired
 	private PedidoRepository pedidoRepository;
-	@Autowired
 	private PagamentoRepository pagamentoRepository;
-	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
 	
 	public void instantiateTestDatabase() throws ParseException {
