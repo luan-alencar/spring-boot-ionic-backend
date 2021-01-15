@@ -1,0 +1,223 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="1" author="aline.cantalice">
+
+        <createTable tableName="usuario">
+
+            <column name="id" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="nome" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="cpf" type="VARCHAR(11)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="telefone" type="VARCHAR(15)">
+            </column>
+
+            <column name="data_nascimento" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="chave" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+        <addPrimaryKey tableName="usuario" columnNames="id" constraintName="pk_usuario"/>
+        <createSequence sequenceName="sq_usuario" incrementBy="1" startValue="1"/>
+        <addUniqueConstraint tableName="usuario" columnNames="cpf" constraintName="un_cpf_usuario"/>
+        <addUniqueConstraint tableName="usuario" columnNames="email" constraintName="un_email_usuario"/>
+        <addUniqueConstraint tableName="usuario" columnNames="chave" constraintName="un_chave_usuario"/>
+
+    </changeSet>
+
+    <changeSet id="2" author="luan.augusto">
+        <createTable tableName="tipo_evento">
+            <column name="id" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="descricao" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="tipo_evento" columnNames="id" constraintName="pk_tipo_evento"/>
+        <createSequence sequenceName="sq_reserva" incrementBy="1" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="3" author="italo.neves">
+
+        <createTable tableName="evento">
+
+            <column name="id" type="NUMBER ">
+                <constraints nullable="false"/>
+            </column>  <!-- Lembra de usar NUMBER e não INT-->
+
+            <column name="horario" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="titulo" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="descricao" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="qtd_vagas" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="valor" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="data_inicio" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="data_fim" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_tipo_evento" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="evento" columnNames="id" constraintName="pk_evento"/>
+        <createSequence sequenceName="sq_evento" incrementBy="1" startValue="1"/>
+        <addForeignKeyConstraint baseTableName="evento" baseColumnNames="id_tipo_evento" constraintName="fk_tipo_evento"
+                                 referencedTableName="tipo_evento"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+    <changeSet id="4" author="aline.cantalice">
+
+        <createTable tableName="pergunta">
+
+            <column name="id" type="NUMBER">
+            </column>
+
+            <column name="titulo" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="obrigatoriedade" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+        <addPrimaryKey tableName="pergunta" columnNames="id" constraintName="pk_pergunta"/>
+        <createSequence sequenceName="sq_pergunta" incrementBy="1" startValue="1"/>
+
+    </changeSet>
+
+    <changeSet id="5" author="luan.augusto">
+        <createTable tableName="evento_pergunta">
+            <column name="id_evento" type="NUMBER">
+            </column>
+            <column name="id_pergunta" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="evento_pergunta" columnNames="id_evento, id_pergunta"
+                       constraintName="pk_evento_pergunta"/>
+
+        <addForeignKeyConstraint baseTableName="evento_pergunta" baseColumnNames="id_evento"
+                                 constraintName="fk_evento" referencedTableName="evento"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="evento_pergunta" baseColumnNames="id_pergunta"
+                                 constraintName="fk_pergunta" referencedTableName="pergunta"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="6" author="Caio">
+        <createTable tableName="tipo_situacao">
+            <column name="id" type="NUMBER">
+            </column>
+            <column name="descricao" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="tipo_situacao" columnNames="id" constraintName="pk_tipo_situacao"/>
+
+    </changeSet>
+
+    <changeSet id="7" author="luan.augusto">
+
+        <createTable tableName="pre_inscricao">
+
+            <column name="id" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_usuario" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="id_evento" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="id_tipo_situacao" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+
+        <addPrimaryKey tableName="pre_inscricao" columnNames="id"
+                       constraintName="pk_pre_inscricao"/>
+        <addForeignKeyConstraint baseTableName="pre_inscricao" baseColumnNames="id_usuario"
+                                 constraintName="fk_usuario" referencedTableName="usuario"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="pre_inscricao" baseColumnNames="id_evento"
+                                 constraintName="fk_evento" referencedTableName="evento"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="pre_inscricao" baseColumnNames="id_tipo_situacao"
+                                 constraintName="fk_tipo_situacao" referencedTableName="tipo_situacao"
+                                 referencedColumnNames="id"/>
+        <createSequence sequenceName="sq_pre_inscricao" incrementBy="1" startValue="1"/>
+
+    </changeSet>
+
+    <changeSet id="8" author="luan.augusto">
+        <createTable tableName="pre_inscricao_resposta">
+            <column name="id_pre_inscricao" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_evento" type="NUMBER">
+            </column>
+            <column name="id_pergunta" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="resposta" type="VARCHAR(255)"/>
+
+        </createTable>
+        <addPrimaryKey tableName="pre_inscricao_resposta" columnNames="id_pre_inscricao, id_evento, id_pergunta"
+                       constraintName="pk_pre_inscricao_resposta"/>
+
+        <addForeignKeyConstraint baseTableName="pre_inscricao_resposta" baseColumnNames="id_pre_inscricao"
+                                 constraintName="fk_pre_inscricao" referencedTableName="pre_inscricao"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="pre_inscricao_resposta" baseColumnNames="id_evento, id_pergunta"
+                                 constraintName="fk_evento_pergunta" referencedTableName="evento_pergunta"
+                                 referencedColumnNames="id_evento, id_pergunta"/>
+    </changeSet>
+
+
+</databaseChangeLog>
